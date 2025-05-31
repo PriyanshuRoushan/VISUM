@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visum Vehicles</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#3b82f6", secondary: "#64748b" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="vaichel.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+  </head>
+  <body>
+    <div class="flex h-screen overflow-hidden">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-white border-r border-gray-200 hidden md:block">
+        <div class="h-full flex flex-col">
+          <div class="p-4 flex items-center space-x-2">
+            <div
+              class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center"
+            >
+              <span class="text-white font-['Pacifico'] text-xl">V</span>
+            </div>
+            <h1 class="text-xl font-bold font-['Pacifico'] text-gray-800">
+              Visum
+            </h1>
+          </div>
+          <nav class="flex-1 px-2 py-4 space-y-1">
+            <a
+              href="index.html"
+              class=" flex items-center px-4 py-3 text-sm font-medium rounded-lg text-white bg-primary"
+            >
+              <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                <i class="ri-dashboard-line"></i>
+              </div>
+              <span>Dashboard</span>
+            </a>
+            <a
+              href="vaichel.html"
+              class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100"
+            >
+              <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                <i class="ri-car-line"></i>
+              </div>
+              <span>Vehicles</span>
+            </a>
+            <a
+              href="driver.html"
+              class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100"
+            >
+              <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                <i class="ri-user-line"></i>
+              </div>
+              <span>Drivers</span>
+            </a>
+            <a
+              href="#"
+              class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100"
+            >
+              <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                <i class="ri-alert-line"></i>
+              </div>
+              <span>Alerts</span>
+            </a>
+            <a
+              href="#"
+              class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100"
+            >
+              <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                <i class="ri-file-chart-line"></i>
+              </div>
+              <span>Reports</span>
+            </a>
+            <a
+              href="Settings.html"
+              class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100"
+            >
+              <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                <i class="ri-settings-line"></i>
+              </div>
+              <span>Settings</span>
+            </a>
+          </nav>
+          <a href="Settings.html">
+            
+          <div class="p-4 border-t border-gray-200 hover:bg-gray-100">
+            <div class="flex items-center">
+              <div
+                class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                <i class="ri-user-line text-gray-600"></i>
+              </div>
+              
+              <div class="ml-3">
+                <p class="text-sm font-medium text-gray-700">James Wilson</p>
+                <p class="text-xs text-gray-500">Fleet Manager</p>
+              </div>
+            </div>
+          </div>
+        </a>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Top Header -->
+        <header class="bg-white border-b border-gray-200 shadow-sm">
+          <div class="flex items-center justify-between px-6 py-4">
+            <div class="flex items-center space-x-4">
+              <button
+                class="relative text-gray-600 hover:text-gray-900 focus:outline-none !rounded-button whitespace-nowrap"
+                id="notificationButton"
+              >
+                <div class="w-10 h-10 flex items-center justify-center">
+                  <i class="ri-notification-3-line text-xl"></i>
+                </div>
+                <span
+                  class="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center rounded-full"
+                  >3</span
+                >
+              </button>
+              <button
+                class="text-gray-600 hover:text-gray-900 focus:outline-none !rounded-button whitespace-nowrap"
+                id="contactButton"
+              >
+                <div class="w-10 h-10 flex items-center justify-center">
+                  <i class="ri-customer-service-2-line text-xl"></i>
+                </div>
+              </button>
+            </div>
+            <div class="flex items-center md:hidden">
+              <button
+                type="button"
+                class="text-gray-600 hover:text-gray-900 focus:outline-none"
+                id="mobileSidebarToggle"
+              >
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-menu-line"></i>
+                </div>
+              </button>
+              <h1
+                class="ml-3 text-xl font-bold font-['Pacifico'] text-gray-800"
+              >
+                Visum
+              </h1>
+            </div>
+            <div class="flex items-center space-x-4 ml-auto">
+              <div class="relative flex items-center">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-400"
+                  >
+                    <i class="ri-search-line"></i>
+                  </div>
+                </div>
+                <input
+                  type="search"
+                  placeholder="Search vehicles..."
+                  class="pl-10 pr-4 py-2 w-64 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              <div class="relative">
+                <button
+                  type="button"
+                  class="flex items-center space-x-2 bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none !rounded-button whitespace-nowrap"
+                >
+                  <span>All Status</span>
+                  <div class="w-4 h-4 flex items-center justify-center">
+                    <i class="ri-arrow-down-s-line"></i>
+                  </div>
+                </button>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-2">
+                  <span class="text-sm text-gray-600">Live Updates</span>
+                  <label class="custom-switch">
+                    <input type="checkbox" checked />
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+                <div class="flex items-center text-sm text-gray-500">
+                  <div class="w-4 h-4 flex items-center justify-center mr-1">
+                    <i class="ri-time-line"></i>
+                  </div>
+                  <span>Last update: 30s ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <!-- Dashboard Content -->
+        <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+          
+          <!-- Status Summary Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div
+              class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-status-safe"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-gray-500 text-sm font-medium">Safe Vehicles</p>
+                  <h3 class="text-3xl font-bold text-gray-800 mt-1">18</h3>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-full bg-status-safe bg-opacity-10 flex items-center justify-center"
+                >
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-shield-check-line"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center text-sm">
+                <div
+                  class="w-4 h-4 flex items-center justify-center text-green-500 mr-1"
+                >
+                  <i class="ri-arrow-up-line"></i>
+                </div>
+                <span class="text-green-500 font-medium"
+                  >+2 since yesterday</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-status-caution"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-gray-500 text-sm font-medium">
+                    Caution Vehicles
+                  </p>
+                  <h3 class="text-3xl font-bold text-gray-800 mt-1">5</h3>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-full bg-status-caution bg-opacity-10 flex items-center justify-center"
+                >
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-yellow-500"
+                  >
+                    <i class="ri-error-warning-line"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center text-sm">
+                <div
+                  class="w-4 h-4 flex items-center justify-center text-yellow-500 mr-1"
+                >
+                  <i class="ri-arrow-down-line"></i>
+                </div>
+                <span class="text-yellow-500 font-medium"
+                  >-1 since yesterday</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-status-hazard"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-gray-500 text-sm font-medium">
+                    Hazard Vehicles
+                  </p>
+                  <h3 class="text-3xl font-bold text-gray-800 mt-1">1</h3>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-full bg-status-hazard bg-opacity-10 flex items-center justify-center"
+                >
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-red-500"
+                  >
+                    <i class="ri-alarm-warning-line"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center text-sm">
+                <div
+                  class="w-4 h-4 flex items-center justify-center text-red-500 mr-1"
+                >
+                  <i class="ri-arrow-up-line"></i>
+                </div>
+                <span class="text-red-500 font-medium">+1 in last hour</span>
+              </div>
+            </div>
+          </div>
+          <!-- Vehicle Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            <!-- Vehicle Card 1 - Hazard -->
+            <div
+              class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+            >
+              <div
+                class="p-4 border-b border-gray-100 flex items-center justify-between"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 rounded-full bg-status-hazard bg-opacity-10 flex items-center justify-center mr-3"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center text-red-500"
+                    >
+                      <i class="ri-truck-line"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-800">VH-7842</h3>
+                    <p class="text-xs text-gray-500">
+                      Driver: Michael Thompson
+                    </p>
+                  </div>
+                </div>
+                <span
+                  class="px-3 py-1 text-xs font-medium rounded-full status-hazard"
+                  >Hazard</span
+                >
+              </div>
+              <div
+                class="h-48 map-container relative"
+                style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png')"
+              >
+                <div
+                  class="absolute bottom-3 left-3 bg-white bg-opacity-90 rounded-lg px-3 py-2 text-xs font-medium text-gray-700 shadow-sm"
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center text-gray-600 mr-1"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <span>Highway 101, San Francisco</span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="mb-4">
+                  <h4 class="text-sm font-medium text-gray-700 mb-2">
+                    Hazard Alerts
+                  </h4>
+                  <div class="space-y-2">
+                    <div
+                      class="flex items-center justify-between p-2 bg-red-50 rounded-lg"
+                    >
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-2"
+                        >
+                          <div
+                            class="w-4 h-4 flex items-center justify-center text-red-500"
+                          >
+                            <i class="ri-eye-close-line"></i>
+                          </div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-800"
+                          >Eye Closure</span
+                        >
+                      </div>
+                      <span class="text-xs text-gray-500">2 min ago</span>
+                    </div>
+                    <div
+                      class="flex items-center justify-between p-2 bg-red-50 rounded-lg"
+                    >
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-2"
+                        >
+                          <div
+                            class="w-4 h-4 flex items-center justify-center text-red-500"
+                          >
+                            <i class="ri-user-unfollow-line"></i>
+                          </div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-800"
+                          >Head Orientation</span
+                        >
+                      </div>
+                      <span class="text-xs text-gray-500">5 min ago</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 rounded-full bg-status-hazard"></div>
+                    <span class="text-sm font-medium text-gray-700"
+                      >Active since 2h 15m</span
+                    >
+                  </div>
+                  <a href="details.html">
+                  <button
+                    class="text-primary text-sm font-medium hover:text-primary-dark focus:outline-none !rounded-button whitespace-nowrap"
+                  >
+                    View Details
+                  </button>
+                </a>
+                </div>
+              </div>
+            </div>
+            <!-- Vehicle Card 2 - Caution -->
+            <div
+              class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+            >
+              <div
+                class="p-4 border-b border-gray-100 flex items-center justify-between"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 rounded-full bg-status-caution bg-opacity-10 flex items-center justify-center mr-3"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center text-yellow-500"
+                    >
+                      <i class="ri-truck-line"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-800">VH-3291</h3>
+                    <p class="text-xs text-gray-500">Driver: Sarah Johnson</p>
+                  </div>
+                </div>
+                <span
+                  class="px-3 py-1 text-xs font-medium rounded-full status-caution"
+                  >Caution</span
+                >
+              </div>
+              <div
+                class="h-48 map-container relative"
+                style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png')"
+              >
+                <div
+                  class="absolute bottom-3 left-3 bg-white bg-opacity-90 rounded-lg px-3 py-2 text-xs font-medium text-gray-700 shadow-sm"
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center text-gray-600 mr-1"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <span>Main Street, Boston</span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="mb-4">
+                  <h4 class="text-sm font-medium text-gray-700 mb-2">
+                    Hazard Alerts
+                  </h4>
+                  <div class="space-y-2">
+                    <div
+                      class="flex items-center justify-between p-2 bg-yellow-50 rounded-lg"
+                    >
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-2"
+                        >
+                          <div
+                            class="w-4 h-4 flex items-center justify-center text-yellow-500"
+                          >
+                            <i class="ri-emotion-sad-line"></i>
+                          </div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-800"
+                          >Yawning</span
+                        >
+                      </div>
+                      <span class="text-xs text-gray-500">10 min ago</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 rounded-full bg-status-caution"></div>
+                    <span class="text-sm font-medium text-gray-700"
+                      >Active since 4h 30m</span
+                    >
+                  </div>
+                  <a href="details.html">
+                  <button
+                    class="text-primary text-sm font-medium hover:text-primary-dark focus:outline-none !rounded-button whitespace-nowrap"
+                  >
+                    View Details
+                  </button>
+                </a>
+                </div>
+              </div>
+            </div>
+            <!-- Vehicle Card 3 - Safe -->
+            <div
+              class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+            >
+              <div
+                class="p-4 border-b border-gray-100 flex items-center justify-between"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 rounded-full bg-status-safe bg-opacity-10 flex items-center justify-center mr-3"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center text-green-500"
+                    >
+                      <i class="ri-truck-line"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-800">VH-5621</h3>
+                    <p class="text-xs text-gray-500">Driver: Robert Davis</p>
+                  </div>
+                </div>
+                <span
+                  class="px-3 py-1 text-xs font-medium rounded-full status-safe"
+                  >Safe</span
+                >
+              </div>
+              <div
+                class="h-48 map-container relative"
+                style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png')"
+              >
+                <div
+                  class="absolute bottom-3 left-3 bg-white bg-opacity-90 rounded-lg px-3 py-2 text-xs font-medium text-gray-700 shadow-sm"
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center text-gray-600 mr-1"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <span>5th Avenue, New York</span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="mb-4">
+                  <h4 class="text-sm font-medium text-gray-700 mb-2">
+                    Hazard Alerts
+                  </h4>
+                  <div
+                    class="flex items-center justify-center p-4 bg-gray-50 rounded-lg"
+                  >
+                    <div class="flex flex-col items-center text-gray-500">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center mb-1"
+                      >
+                        <i class="ri-check-double-line"></i>
+                      </div>
+                      <span class="text-sm">No recent alerts</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 rounded-full bg-status-safe"></div>
+                    <span class="text-sm font-medium text-gray-700"
+                      >Active since 6h 45m</span
+                    >
+                  </div>
+                  <a href="details.html">
+                  <button
+                    class="text-primary text-sm font-medium hover:text-primary-dark focus:outline-none !rounded-button whitespace-nowrap"
+                  >
+                    View Details
+                  </button>
+                </a>
+                </div>
+              </div>
+            </div>
+            <!-- Vehicle Card 4 - Safe -->
+            <div
+              class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+            >
+              <div
+                class="p-4 border-b border-gray-100 flex items-center justify-between"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 rounded-full bg-status-safe bg-opacity-10 flex items-center justify-center mr-3"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center text-green-500"
+                    >
+                      <i class="ri-truck-line"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-800">VH-9034</h3>
+                    <p class="text-xs text-gray-500">Driver: Jennifer Wilson</p>
+                  </div>
+                </div>
+                <span
+                  class="px-3 py-1 text-xs font-medium rounded-full status-safe"
+                  >Safe</span
+                >
+              </div>
+              <div
+                class="h-48 map-container relative"
+                style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png')"
+              >
+                <div
+                  class="absolute bottom-3 left-3 bg-white bg-opacity-90 rounded-lg px-3 py-2 text-xs font-medium text-gray-700 shadow-sm"
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center text-gray-600 mr-1"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <span>Lake Shore Drive, Chicago</span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="mb-4">
+                  <h4 class="text-sm font-medium text-gray-700 mb-2">
+                    Hazard Alerts
+                  </h4>
+                  <div
+                    class="flex items-center justify-center p-4 bg-gray-50 rounded-lg"
+                  >
+                    <div class="flex flex-col items-center text-gray-500">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center mb-1"
+                      >
+                        <i class="ri-check-double-line"></i>
+                      </div>
+                      <span class="text-sm">No recent alerts</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 rounded-full bg-status-safe"></div>
+                    <span class="text-sm font-medium text-gray-700"
+                      >Active since 3h 20m</span
+                    >
+                  </div>
+                  <button
+                    class="text-primary text-sm font-medium hover:text-primary-dark focus:outline-none !rounded-button whitespace-nowrap"
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Vehicle Card 5 - Caution -->
+            <div
+              class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+            >
+              <div
+                class="p-4 border-b border-gray-100 flex items-center justify-between"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 rounded-full bg-status-caution bg-opacity-10 flex items-center justify-center mr-3"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center text-yellow-500"
+                    >
+                      <i class="ri-truck-line"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-800">VH-1257</h3>
+                    <p class="text-xs text-gray-500">Driver: David Miller</p>
+                  </div>
+                </div>
+                <span
+                  class="px-3 py-1 text-xs font-medium rounded-full status-caution"
+                  >Caution</span
+                >
+              </div>
+              <div
+                class="h-48 map-container relative"
+                style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png')"
+              >
+                <div
+                  class="absolute bottom-3 left-3 bg-white bg-opacity-90 rounded-lg px-3 py-2 text-xs font-medium text-gray-700 shadow-sm"
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center text-gray-600 mr-1"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <span>Peachtree Street, Atlanta</span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="mb-4">
+                  <h4 class="text-sm font-medium text-gray-700 mb-2">
+                    Hazard Alerts
+                  </h4>
+                  <div class="space-y-2">
+                    <div
+                      class="flex items-center justify-between p-2 bg-yellow-50 rounded-lg"
+                    >
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-2"
+                        >
+                          <div
+                            class="w-4 h-4 flex items-center justify-center text-yellow-500"
+                          >
+                            <i class="ri-user-unfollow-line"></i>
+                          </div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-800"
+                          >Head Orientation</span
+                        >
+                      </div>
+                      <span class="text-xs text-gray-500">15 min ago</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 rounded-full bg-status-caution"></div>
+                    <span class="text-sm font-medium text-gray-700"
+                      >Active since 5h 10m</span
+                    >
+                  </div>
+                  <button
+                    class="text-primary text-sm font-medium hover:text-primary-dark focus:outline-none !rounded-button whitespace-nowrap"
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Vehicle Card 6 - Safe -->
+            <div
+              class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+            >
+              <div
+                class="p-4 border-b border-gray-100 flex items-center justify-between"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 rounded-full bg-status-safe bg-opacity-10 flex items-center justify-center mr-3"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center text-green-500"
+                    >
+                      <i class="ri-truck-line"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-800">VH-4872</h3>
+                    <p class="text-xs text-gray-500">Driver: Emily Parker</p>
+                  </div>
+                </div>
+                <span
+                  class="px-3 py-1 text-xs font-medium rounded-full status-safe"
+                  >Safe</span
+                >
+              </div>
+              <div
+                class="h-48 map-container relative"
+                style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png')"
+              >
+                <div
+                  class="absolute bottom-3 left-3 bg-white bg-opacity-90 rounded-lg px-3 py-2 text-xs font-medium text-gray-700 shadow-sm"
+                >
+                  <div class="flex items-center">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center text-gray-600 mr-1"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <span>Ocean Drive, Miami</span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4">
+                <div class="mb-4">
+                  <h4 class="text-sm font-medium text-gray-700 mb-2">
+                    Hazard Alerts
+                  </h4>
+                  <div
+                    class="flex items-center justify-center p-4 bg-gray-50 rounded-lg"
+                  >
+                    <div class="flex flex-col items-center text-gray-500">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center mb-1"
+                      >
+                        <i class="ri-check-double-line"></i>
+                      </div>
+                      <span class="text-sm">No recent alerts</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 rounded-full bg-status-safe"></div>
+                    <span class="text-sm font-medium text-gray-700"
+                      >Active since 2h 55m</span
+                    >
+                  </div>
+                  <button
+                    class="text-primary text-sm font-medium hover:text-primary-dark focus:outline-none !rounded-button whitespace-nowrap"
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const notificationButton = document.getElementById("notificationButton");
+        const contactButton = document.getElementById("contactButton");
+        // Add pagination functionality
+        const vehiclesPerPage = 5;
+        const totalVehicles = 48;
+        const totalPages = Math.ceil(totalVehicles / vehiclesPerPage);
+        function updatePagination(currentPage) {
+          const paginationContainer = document.querySelector(
+            ".flex.items-center.space-x-2",
+          );
+          const buttons = paginationContainer.querySelectorAll("button");
+
+          // Update button styles
+          buttons.forEach((button) => {
+            if (button.textContent === currentPage.toString()) {
+              button.className =
+                "px-3 py-1 border border-gray-300 rounded-lg text-sm text-white bg-primary hover:bg-primary-dark !rounded-button whitespace-nowrap";
+            } else if (!isNaN(button.textContent)) {
+              button.className =
+                "px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-500 hover:bg-gray-50 !rounded-button whitespace-nowrap";
+            }
+          });
+          // Update Previous/Next button states
+          const prevButton = buttons[0];
+          const nextButton = buttons[buttons.length - 1];
+
+          prevButton.disabled = currentPage === 1;
+          prevButton.className = `px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-500 hover:bg-gray-50 ${currentPage === 1 ? "disabled:opacity-50 disabled:cursor-not-allowed" : ""} !rounded-button whitespace-nowrap`;
+
+          nextButton.disabled = currentPage === totalPages;
+          nextButton.className = `px-3 py-1 border border-gray-300 rounded-lg text-sm text-gray-500 hover:bg-gray-50 ${currentPage === totalPages ? "disabled:opacity-50 disabled:cursor-not-allowed" : ""} !rounded-button whitespace-nowrap`;
+          // Update showing entries text
+          const startEntry = (currentPage - 1) * vehiclesPerPage + 1;
+          const endEntry = Math.min(currentPage * vehiclesPerPage, totalVehicles);
+          const showingText = document.querySelector(
+            ".flex.items-center.text-sm.text-gray-500 span",
+          );
+          showingText.textContent = `Showing ${startEntry} to ${endEntry} of ${totalVehicles} entries`;
+        }
+        // Add click event listeners to pagination buttons
+        const paginationContainer = document.querySelector(
+          ".flex.items-center.space-x-2",
+        );
+        const buttons = paginationContainer.querySelectorAll("button");
+        buttons.forEach((button) => {
+          button.addEventListener("click", function () {
+            if (this.disabled) return;
+
+            const currentPage =
+              this.textContent === "Previous"
+                ? parseInt(document.querySelector("button.bg-primary").textContent) -
+                  1
+                : this.textContent === "Next"
+                  ? parseInt(
+                      document.querySelector("button.bg-primary").textContent,
+                    ) + 1
+                  : parseInt(this.textContent);
+            if (currentPage >= 1 && currentPage <= totalPages) {
+              updatePagination(currentPage);
+              // Here you would typically fetch and update the table data for the new page
+              // For this example, we'll just update the pagination UI
+            }
+          });
+        });
+        function createPopup(title, content) {
+          const popup = document.createElement("div");
+          popup.className = "fixed inset-0 flex items-center justify-center z-50";
+          popup.innerHTML = `
+      <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-md relative z-10 mx-4">
+      <div class="flex items-center justify-between p-4 border-b">
+      <h3 class="text-lg font-semibold text-gray-900">${title}</h3>
+      <button class="text-gray-400 hover:text-gray-600 focus:outline-none">
+      <i class="ri-close-line text-xl"></i>
+      </button>
+      </div>
+      <div class="p-4">
+      ${content}
+      </div>
+      </div>
+      `;
+          document.body.appendChild(popup);
+          const closeBtn = popup.querySelector("button");
+          const overlay = popup.querySelector(".fixed.inset-0.bg-black");
+          function closePopup() {
+            document.body.removeChild(popup);
+          }
+          closeBtn.addEventListener("click", closePopup);
+          overlay.addEventListener("click", closePopup);
+        }
+        notificationButton.addEventListener("click", () => {
+          const notificationContent = `
+      <div class="space-y-4">
+      <div class="flex items-center space-x-3 p-3 bg-red-50 rounded-lg">
+      <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+      <i class="ri-error-warning-line text-red-500"></i>
+      </div>
+      <div>
+      <p class="text-sm font-medium text-gray-900">Vehicle VH-7842 reported hazard</p>
+      <p class="text-xs text-gray-500">2 minutes ago</p>
+      </div>
+      </div>
+      <div class="flex items-center space-x-3 p-3 bg-yellow-50 rounded-lg">
+      <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+      <i class="ri-alert-line text-yellow-500"></i>
+      </div>
+      <div>
+      <p class="text-sm font-medium text-gray-900">Vehicle VH-3291 needs maintenance</p>
+      <p class="text-xs text-gray-500">10 minutes ago</p>
+      </div>
+      </div>
+      <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+      <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+      <i class="ri-information-line text-blue-500"></i>
+      </div>
+      <div>
+      <p class="text-sm font-medium text-gray-900">System update available</p>
+      <p class="text-xs text-gray-500">1 hour ago</p>
+      </div>
+      </div>
+      </div>
+      `;
+          createPopup("Notifications", notificationContent);
+        });
+        contactButton.addEventListener("click", () => {
+          const contactContent = `
+      <div class="space-y-4">
+      <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+      <div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+      <i class="ri-phone-line text-primary"></i>
+      </div>
+      <div>
+      <p class="text-sm font-medium text-gray-900">24/7 Support Hotline</p>
+      <p class="text-xs text-gray-500">+1 (800) 123-4567</p>
+      </div>
+      </div>
+      <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+      <div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+      <i class="ri-mail-line text-primary"></i>
+      </div>
+      <div>
+      <p class="text-sm font-medium text-gray-900">Email Support</p>
+      <p class="text-xs text-gray-500">support@visum.com</p>
+      </div>
+      </div>
+      <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+      <div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+      <i class="ri-message-2-line text-primary"></i>
+      </div>
+      <div>
+      <p class="text-sm font-medium text-gray-900">Live Chat</p>
+      <p class="text-xs text-gray-500">Available 24/7</p>
+      </div>
+      </div>
+      <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+      <div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+      <i class="ri-question-line text-primary"></i>
+      </div>
+      <div>
+      <p class="text-sm font-medium text-gray-900">Help Center</p>
+      <p class="text-xs text-gray-500">Browse FAQs and guides</p>
+      </div>
+      </div>
+      </div>
+      `;
+          createPopup("Contact Support", contactContent);
+        });
+        const mobileSidebarToggle = document.getElementById("mobileSidebarToggle");
+        const sidebar = document.querySelector("aside");
+        if (mobileSidebarToggle) {
+          mobileSidebarToggle.addEventListener("click", function () {
+            sidebar.classList.toggle("hidden");
+          });
+        }
+        const deleteButtons = document.querySelectorAll(
+          "button i.ri-delete-bin-line",
+        );
+        deleteButtons.forEach((button) => {
+          button.closest("button").addEventListener("click", function () {
+            const vehicleId = this.closest("tr").querySelector(
+              "td:first-child span",
+            ).textContent;
+            if (confirm(`Are you sure you want to delete vehicle ${vehicleId}?`)) {
+              this.closest("tr").remove();
+            }
+          });
+        });
+        const addVehicleButton = document.querySelector("button:has(i.ri-add-line)");
+        if (addVehicleButton) {
+          addVehicleButton.addEventListener("click", function () {
+            alert("Add Vehicle functionality will be implemented here");
+          });
+        }
+        const searchInput = document.querySelector('input[type="search"]');
+        if (searchInput) {
+          searchInput.addEventListener("input", function () {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll("tbody tr");
+            rows.forEach((row) => {
+              const vehicleId = row
+                .querySelector("td:first-child span")
+                .textContent.toLowerCase();
+              const driverName = row
+                .querySelector("td:nth-child(3) .text-sm")
+                .textContent.toLowerCase();
+              const shouldShow =
+                vehicleId.includes(searchTerm) || driverName.includes(searchTerm);
+              row.style.display = shouldShow ? "" : "none";
+            });
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

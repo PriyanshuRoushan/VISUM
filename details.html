@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visum Details</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        /* Minimal styles to ensure functionality */
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1d5db;
+            transition: 0.4s;
+            border-radius: 20px;
+        }
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .switch-slider {
+            background-color: #3b82f6;
+        }
+        input:checked + .switch-slider:before {
+            transform: translateX(14px);
+        }
+    </style>
+</head>
+<body>
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 hidden md:block">
+            <div class="h-full flex flex-col">
+                <div class="p-4 flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <span class="text-white font-['Pacifico'] text-xl">V</span>
+                    </div>
+                    <h1 class="text-xl font-bold font-['Pacifico'] text-gray-800">Visum</h1>
+                </div>
+                
+                <nav class="flex-1 px-2 py-4 space-y-1">
+                    <a href="index.html" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-white bg-primary">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-dashboard-line"></i>
+                        </div>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="vaichel.html" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-car-line"></i>
+                        </div>
+                        <span>Vehicles</span>
+                    </a>
+                    <a href="driver.html" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-user-line"></i>
+                        </div>
+                        <span>Drivers</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-alert-line"></i>
+                        </div>
+                        <span>Alerts</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-file-chart-line"></i>
+                        </div>
+                        <span>Reports</span>
+                    </a>
+                    <a href="Settings.html" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-settings-line"></i>
+                        </div>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+                
+                <div class="p-4 border-t border-gray-200">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                            <i class="ri-user-line text-gray-600"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-700">James Wilson</p>
+                            <p class="text-xs text-gray-500">Fleet Manager</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Header -->
+            <header class="bg-white border-b border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center md:hidden">
+                        <button type="button" class="text-gray-600 hover:text-gray-900 focus:outline-none" id="mobileSidebarToggle">
+                            <div class="w-6 h-6 flex items-center justify-center">
+                                <i class="ri-menu-line"></i>
+                            </div>
+                        </button>
+                        <h1 class="ml-3 text-xl font-bold font-['Pacifico'] text-gray-800">Visum</h1>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 ml-auto">
+                        <div class="relative flex items-center">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                    <i class="ri-search-line"></i>
+                                </div>
+                            </div>
+                            <input type="search" placeholder="Search vehicles..." class="pl-10 pr-4 py-2 w-64 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                        
+                        <div class="relative">
+                            <button type="button" class="flex items-center space-x-2 bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none rounded-button whitespace-nowrap">
+                                <span>All Status</span>
+                                <div class="w-4 h-4 flex items-center justify-center">
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-600">Live Updates</span>
+                                <label class="custom-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center text-sm text-gray-500">
+                                <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                    <i class="ri-time-line"></i>
+                                </div>
+                                <span>Last update: 30s ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Details Content -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <div class="mb-6 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Vehicle Details</h2>
+                        <div class="flex items-center mt-2 space-x-4 flex-wrap gap-y-2">
+                            <span class="text-lg font-semibold text-gray-700">VH-7842</span>
+                            <span class="px-3 py-1 text-sm font-medium rounded-full bg-red-100 text-red-800" id="hazard_status">Hazard</span>
+                            <p class="text-gray-600">Driver: Ashwani Raj</p>
+                            
+                            <!-- Emergency Contact Button -->
+                            <button onclick="showEmergencyContact()" class="flex items-center px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm font-medium hover:bg-blue-100 transition-colors">
+                                <i class="ri-emergency-line mr-1"></i>
+                                Emergency Contact
+                            </button>
+                            
+                            <!-- Nearest Police Station Button -->
+                            <button onclick="findNearestPoliceStation()" class="flex items-center px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-sm font-medium hover:bg-purple-100 transition-colors">
+                                <i class="ri-shield-user-line mr-1"></i>
+                                Nearest Police
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal -->
+                <div id="contactModal" class="z-10 fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="bg-white rounded-lg p-6 max-w-md w-full">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold" id="modalTitle">Modal Title</h3>
+                            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-4 z-20" id="modalContent">
+                            <!-- Content will be inserted here by JavaScript -->
+                        </div>
+                        <div class="mt-6 flex justify-end">
+                            <button onclick="closeModal()" class=" px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Left Column -->
+                    <div class="md:col-span-2 space-y-6">
+                        <!-- Live Map -->
+                        <div class="bg-white rounded-lg shadow-sm p-4 ">
+                            <h3 class="text-lg font-semibold mb-4">Live Location</h3>
+                            <div class="h-96 rounded-lg overflow-hidden">
+                                <div id="map" class="w-full h-full"></div>
+                                <div class="relative w-full h-full hidden" id="map-fallback">
+                                    <div class="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-sm">
+                                        <div class="flex items-center">
+                                            <i class="ri-map-pin-2-fill text-red-500 mr-2"></i>
+                                            <span class="text-sm" id="loc_text">Fetching location...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Location Message Box -->
+                            <div class="mt-4 p-4 bg-blue-50 rounded-lg shadow-sm">
+                                <h4 class="text-md font-semibold mb-2">Location</h4>
+                                <p id="location-message" class="text-gray-700">Fetching address...</p>
+                            </div>
+                        </div>
+
+                        <!-- Camera Feed -->
+                        <div class="bg-white rounded-lg shadow-sm p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold">Live Camera Feed</h3>
+                                <div class="flex items-center text-sm text-red-500 font-medium">
+                                    <i class="ri-time-line mr-1"></i>
+                                    <span id="hazard-timestamp">00:00:00 IST</span>
+                                </div>
+                            </div>
+                            <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden relative">
+                                <img src="123.jpg" alt="Camera feed" class="w-full h-full object-cover">
+                                
+                                <!-- Hazard Timeline Overlay -->
+                                <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+                                    <div class="flex items-center justify-between text-white">
+                                        <div class="flex items-center">
+                                            <i class="ri-alarm-warning-line text-red-400 mr-2"></i>
+                                            <span class="text-sm">Hazard Duration:</span>
+                                            <span class="font-mono ml-2" id="hazard-duration">00:00:00</span>
+                                        </div>
+                                        <div class="text-sm">
+                                            Last Updated: <span id="last-updated">00:00:00 IST</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="space-y-6">
+                        <!-- Recent Alerts -->
+                        <div class="bg-white rounded-lg shadow-sm p-4">
+                            <h3 class="text-lg font-semibold mb-4">Recent Alerts</h3>
+                            <div class="space-y-3">
+                                <div class="p-3 bg-red-50 rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="ri-eye-close-line text-red-500"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Inattentiveness Detected</p>
+                                                <p class="text-sm text-gray-500">2 minutes ago</p>
+                                            </div>
+                                        </div>
+                                        <i class="ri-arrow-right-s-line text-gray-400"></i>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-yellow-50 rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="ri-steering-2-line text-yellow-500"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Caution </p>
+                                                <p class="text-sm text-gray-500">15 minutes ago</p>
+                                            </div>
+                                        </div>
+                                        <i class="ri-arrow-right-s-line text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      
+
+                        <!-- Vehicle Parameters -->
+                        <div class="bg-white rounded-lg shadow-sm p-4">
+                            <h3 class="text-lg font-semibold mb-4">Vehicle Parameters</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Vehicle Status</span>
+                                    <span id="vehicle-status" class="font-medium text-green-600">ON</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Current Location</span>
+                                    <span id="current-location" class="font-medium">Lat: N/A, Lng: N/A</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Safety Status</span>
+                                    <span id="safety-status" class="font-medium text-green-600">YES</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Driver Alcohol Percentage</span>
+                                    <span id="alcohol-percentage" class="font-medium text-green-600">5.00%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Head State</span>
+                                    <span id="head-state" class="font-medium">Attentive</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Eye Status</span>
+                                    <span id="eye-status" class="font-medium">Eye Present</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Yawn Count</span>
+                                    <span id="yawn-count" class="font-medium">0</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Yawn Phase</span>
+                                    <span id="yawn-phase" class="font-medium">Normal</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">SOS Button Status</span>
+                                    <span id="sos-status" class="font-medium text-green-600">OFF</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Last Updated At</span>
+                                    <span id="timestamps" class="font-medium text-green-600">Fetching</span>
+                                </div>
+                            </div>
+                        </div>
+                          <!-- Vehicle Information -->
+                          <div class="bg-white rounded-lg shadow-sm p-4">
+                            <h3 class="text-lg font-semibold mb-4">Vehicle Information</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Vehicle Type</span>
+                                    <span class="font-medium">Heavy Duty Truck</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Last Service</span>
+                                    <span class="font-medium">2025-03-28</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Odometer</span>
+                                    <span class="font-medium">184,234 km</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Timeline -->
+                        <div class="bg-white rounded-lg shadow-sm p-4">
+                            <h3 class="text-lg font-semibold mb-4">Status Timeline</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 bg-red-500 rounded-full mr-3"></div>
+                                    <div>
+                                        <p class="text-sm font-medium">Hazard Status</p>
+                                        <p class="text-xs text-gray-500">2 hours active</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></div>
+                                    <div>
+                                        <p class="text-sm font-medium">Caution Status</p>
+                                        <p class="text-xs text-gray-500">4 hours active</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+        // Firebase config (replace with your own values)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKrGwoyJgdVrYS2MYo2sqztjPxdXm5pto",
+            authDomain: "owner-dashboard-42d0a.firebaseapp.com",
+            projectId: "owner-dashboard-42d0a",
+            storageBucket: "owner-dashboard-42d0a.firebasestorage.app",
+            messagingSenderId: "860687654304",
+            appId: "1:860687654304:web:43c8c808a43cabd13998c5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Modal Handling Functions
+        function closeModal() {
+            const contactModal = document.getElementById('contactModal');
+            if (contactModal) {
+                contactModal.classList.add('hidden');
+                console.log('Modal closed');
+            } else {
+                console.error('Contact modal not found');
+            }
+        }
+
+        function showEmergencyContact() {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            const contactModal = document.getElementById('contactModal');
+            if (modalTitle && modalContent && contactModal) {
+                modalTitle.textContent = 'Emergency Contact';
+                modalContent.innerHTML = `
+                    <p><strong>Name:</strong> John Doe</p>
+                    <p><strong>Phone:</strong> +91 98765 43210</p>
+                    <p><strong>Relation:</strong> Supervisor</p>
+                    <a href="tel:+919876543210" class="inline-block mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                        Call Emergency Contact
+                    </a>
+                `;
+                contactModal.classList.remove('hidden');
+                console.log('Emergency Contact modal opened');
+            } else {
+                console.error('Modal elements not found');
+            }
+        }
+        window.showEmergencyContact = showEmergencyContact;
+
+        function findNearestPoliceStation() {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            const contactModal = document.getElementById('contactModal');
+            if (modalTitle && modalContent && contactModal) {
+                modalTitle.textContent = 'Nearest Police Station';
+                modalContent.innerHTML = `
+                    <p><strong>Station:</strong> Central Delhi Police Station</p>
+                    <p><strong>Address:</strong> 123 Connaught Place, New Delhi</p>
+                    <p><strong>Phone:</strong> +91 11234 56789</p>
+                    <a href="tel:+911123456789" class="inline-block mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                        Call Police Station
+                    </a>
+                `;
+                contactModal.classList.remove('hidden');
+                console.log('Nearest Police modal opened');
+            } else {
+                console.error('Modal elements not found');
+            }
+        }
+        window.findNearestPoliceStation = findNearestPoliceStation;
+
+        async function fetchLatestData() {
+            const q = query(collection(db, "locations"), orderBy("timestamp", "desc"), limit(1));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                
+                // Map Firebase fields to UI elements
+                document.getElementById("vehicle-status").innerText = data.current_vehicle_status || "N/A";
+                document.getElementById("current-location").innerText = `Lat: ${data.vehicle_cords.lat || 0}, Lng: ${data.vehicle_cords.long || 0}`;
+                document.getElementById("safety-status").innerText = data.hazard_status || "N/A"; // Inverse relationship
+                document.getElementById("alcohol-percentage").innerText = data.alcohol_quantity ? `${data.alcohol_quantity}` : "N/A";
+                document.getElementById("head-state").innerText = data.head_state || "N/A";
+                const options = {
+                timeZone: 'Asia/Kolkata',
+                hour12: true,
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+                };
+
+                document.getElementById("timestamps").innerText = data.timestamp?.toDate().toLocaleString('en-IN', options) ;
+                document.getElementById("sos-status").innerText = data.sos_state ? "ON" : "OFF";
+                document.getElementById("yawn-count").innerText = data.yawn_phase_count || 0;
+                document.getElementById("yawn-phase").innerText = data.yawn_phase_state || "Normal";
+                document.getElementById("eye-status").innerText = data.eye_state || "Eye Present";
+                document.getElementById("location-message").innerText = data.location_text || "Fetching address...";
+
+                // Update map with dynamic latitude and longitude from database
+                const map = window.map;
+                const marker = window.marker;
+                const circle = window.circle;
+                if (map && marker && circle && data.vehicle_cords) {
+                    const lat = data.vehicle_cords.lat || 28.974033;
+                    const lng = data.vehicle_cords.long || 77.640352;
+                    map.setView([lat, lng], 13);
+                    marker.setLatLng([lat, lng]);
+                    circle.setLatLng([lat, lng]);
+                }
+            });
+        }
+
+        // Refresh every 3 seconds
+        setInterval(fetchLatestData, 3000);
+        window.onload = fetchLatestData;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const mapElement = document.getElementById('map');
+            const locationText = document.getElementById('location-text');
+            const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+            const sidebar = document.querySelector('aside');
+            const hazardTimestamp = document.getElementById('hazard-timestamp');
+            const hazardDuration = document.getElementById('hazard-duration');
+            const lastUpdated = document.getElementById('last-updated');
+
+            // Initialize map variables
+            let map = null;
+            let marker = null;
+            let circle = null;
+            window.map = map;
+            window.marker = marker;
+            window.circle = circle;
+
+            // Utility function to format time (HH:mm:ss)
+            function formatTime(seconds) {
+                const hrs = Math.floor(seconds / 3600).toString().padStart(2, '0');
+                const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                return `${hrs}:${mins}:${secs}`;
+            }
+
+            // Utility function to get current IST time
+            function getCurrentISTTime() {
+                const now = new Date();
+                const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+                const istTime = new Date(now.getTime() + istOffset);
+                return istTime.toISOString().slice(11, 19) + ' IST';
+            }
+
+            // Map Initialization
+            if (mapElement) {
+                try {
+                    map = L.map('map').setView([30.26, 77.99], 13); // Default to New Delhi
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+
+                    marker = L.marker([30.26, 77.99]).addTo(map)
+                        .bindPopup('VH-7842 Current Location')
+                        .openPopup();
+
+                    circle = L.circle([30.26, 77.99], {
+                        color: 'red',
+                        fillColor: '#f03',
+                        fillOpacity: 0.2,
+                        radius: 200
+                    }).addTo(map);
+
+                    window.map = map;
+                    window.marker = marker;
+                    window.circle = circle;
+
+                    map.on('click', function(e) {
+                        marker.setLatLng(e.latlng);
+                        circle.setLatLng(e.latlng);
+                        marker.bindPopup(`Clicked at<br>Lat: ${e.latlng.lat.toFixed(5)}, Lng: ${e.latlng.lng.toFixed(5)}`).openPopup();
+                });
+                    if (locationText) {
+                        locationText.textContent = 'Dehradun, India';
+                    }
+                } catch (error) {
+                    console.error('Map initialization failed:', error);
+                    const mapFallback = document.getElementById('map-fallback');
+                    if (mapFallback) {
+                        mapFallback.classList.remove('hidden');
+                    }
+                }
+            } else {
+                console.error('Map element not found');
+            }
+
+            // Mobile Sidebar Toggle
+            if (mobileSidebarToggle && sidebar) {
+                mobileSidebarToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('hidden');
+                });
+            } else {
+                console.warn('Sidebar toggle or sidebar element not found');
+            }
+
+            // Initialize Hazard Timestamps
+            let hazardStartTime = Date.now() - 2 * 60 * 1000; // Simulate hazard started 2 minutes ago
+            if (hazardTimestamp) {
+                hazardTimestamp.textContent = new Date(hazardStartTime).toISOString().slice(0, 19).replace('T', ' ') + ' IST';
+            } else {
+                console.warn('Hazard timestamp element not found');
+            }
+            if (hazardDuration && lastUpdated) {
+                setInterval(() => {
+                    try {
+                        const elapsedSeconds = Math.floor((Date.now() - hazardStartTime) / 1000);
+                        hazardDuration.textContent = formatTime(elapsedSeconds);
+                        lastUpdated.textContent = getCurrentISTTime();
+                    } catch (error) {
+                        console.error('Timestamp update failed:', error);
+                        hazardDuration.textContent = '00:00:00';
+                        lastUpdated.textContent = '00:00:00 IST';
+                    }
+                }, 1000);
+            } else {
+                console.warn('Hazard timestamp elements not found');
+            }
+        });
+    </script>
+</body>
+</html>
