@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visum Dashboard - Settings</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b',
+                        'status-safe': '#22c55e',
+                        'status-caution': '#facc15',
+                        'status-hazard': '#ef4444'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .settings-section {
+            transition: all 0.3s ease;
+        }
+        .settings-section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .settings-section.active .settings-section-content {
+            max-height: 1000px; /* Adjust based on content */
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 36px;
+            height: 20px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 20px;
+        }
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .switch-slider {
+            background-color: #3b82f6;
+        }
+        input:checked + .switch-slider:before {
+            transform: translateX(16px);
+        }
+    </style>
+</head>
+<body>
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 hidden md:block">
+            <div class="h-full flex flex-col">
+                <div class="p-4 flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <span class="text-white font-['Pacifico'] text-xl">V</span>
+                    </div>
+                    <h1 class="text-xl font-bold font-['Pacifico'] text-gray-800">Visum</h1>
+                </div>
+                
+                <nav class="flex-1 px-2 py-4 space-y-1">
+                    <a href="index.html" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-dashboard-line"></i>
+                        </div>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="vaichel.html" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-car-line"></i>
+                        </div>
+                        <span>Vehicles</span>
+                    </a>
+                    <a href="driver.html" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-user-line"></i>
+                        </div>
+                        <span>Drivers</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-alert-line"></i>
+                        </div>
+                        <span>Alerts</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-file-chart-line"></i>
+                        </div>
+                        <span>Reports</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-white bg-primary">
+                        <div class="w-5 h-5 mr-3 flex items-center justify-center">
+                            <i class="ri-settings-line"></i>
+                        </div>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+                
+                <div class="p-4 border-t border-gray-200">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                            <i class="ri-user-line text-gray-600"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-700">James Wilson</p>
+                            <p class="text-xs text-gray-500">Fleet Manager</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Header -->
+            <header class="bg-white border-b border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center md:hidden">
+                        <button type="button" class="text-gray-600 hover:text-gray-900 focus:outline-none" id="mobileSidebarToggle">
+                            <div class="w-6 h-6 flex items-center justify-center">
+                                <i class="ri-menu-line"></i>
+                            </div>
+                        </button>
+                        <h1 class="ml-3 text-xl font-bold font-['Pacifico'] text-gray-800">Visum</h1>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 ml-auto">
+                        <div class="relative flex items-center">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                    <i class="ri-search-line"></i>
+                                </div>
+                            </div>
+                            <input type="search" placeholder="Search settings..." class="pl-10 pr-4 py-2 w-64 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Settings Content -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Settings</h2>
+                    <p class="text-gray-600">Manage your account, vehicles, drivers, and system preferences</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <!-- Account Settings -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>Account Settings</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Profile Information -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Profile Information</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Name</label>
+                                            <input type="text" value="James Wilson" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Email</label>
+                                            <input type="email" value="james.wilson@example.com" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Phone Number</label>
+                                            <input type="tel" value="+1 234 567 8900" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Change Password -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Change Password</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Current Password</label>
+                                            <input type="password" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">New Password</label>
+                                            <input type="password" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Confirm New Password</label>
+                                            <input type="password" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Update Password</button>
+                                </div>
+                                <!-- Notification Preferences -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Notification Preferences</h4>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" checked class="mr-2">
+                                            <span class="text-sm text-gray-600">Email Notifications</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="mr-2">
+                                            <span class="text-sm text-gray-600">SMS Notifications</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" checked class="mr-2">
+                                            <span class="text-sm text-gray-600">In-app Notifications</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Multi-Factor Authentication -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Multi-Factor Authentication (MFA)</h4>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-gray-600 mr-4">Enable MFA</span>
+                                        <label class="custom-switch">
+                                            <input type="checkbox">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2">Secure your account with an additional verification step.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Management -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>Vehicle Management</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Add/Remove Vehicles -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Add / Remove Vehicles</h4>
+                                    <div class="flex items-center space-x-4">
+                                        <input type="text" placeholder="Enter Vehicle ID (e.g., VH-1234)" class="flex-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Add Vehicle</button>
+                                        <button class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 focus:outline-none">Remove</button>
+                                    </div>
+                                </div>
+                                <!-- Assign Drivers to Vehicles -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Assign Drivers to Vehicles</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Select Vehicle</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>VH-7842</option>
+                                                <option>VH-3291</option>
+                                                <option>VH-5621</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Select Driver</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>Ram Prashad</option>
+                                                <option>Brij Keshor</option>
+                                                <option>Aditya Raj</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Assign Driver</button>
+                                </div>
+                                <!-- Vehicle Type Settings -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Vehicle Type Settings</h4>
+                                    <select class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option>Truck</option>
+                                        <option>Bus</option>
+                                        <option>Car</option>
+                                        <option>Van</option>
+                                    </select>
+                                </div>
+                                <!-- Set Maintenance Reminders -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Set Maintenance Reminders</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Vehicle</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>VH-7842</option>
+                                                <option>VH-3291</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Reminder Date</label>
+                                            <input type="date" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Set Reminder</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Driver Management -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>Driver Management</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Add/Remove Drivers -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Add / Remove Drivers</h4>
+                                    <div class="flex items-center space-x-4">
+                                        <input type="text" placeholder="Enter Driver Name" class="flex-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Add Driver</button>
+                                        <button class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 focus:outline-none">Remove</button>
+                                    </div>
+                                </div>
+                                <!-- Assign Vehicle(s) to Driver -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Assign Vehicle(s) to Driver</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Select Driver</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>Ram Prashad</option>
+                                                <option>Brij Keshor</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Select Vehicle</label>
+                                            <select multiple class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>VH-7842</option>
+                                                <option>VH-3291</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Assign Vehicle</button>
+                                </div>
+                                <!-- Set Driver Work Hours -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Set Driver Work Hours</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Driver</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>Ram Prashad</option>
+                                                <option>Brij Keshor</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Max Hours per Day</label>
+                                            <input type="number" value="8" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Set Hours</button>
+                                </div>
+                                <!-- Driver Verification & Documents Upload -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Driver Verification & Documents Upload</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Driver</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>Ram Prashad</option>
+                                                <option>Brij Keshor</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Upload Document</label>
+                                            <input type="file" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Upload Document</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Settings -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>Notifications Settings</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Real-time Alerts Configuration -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Real-time Alerts Configuration</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-600">Drowsiness Alerts</span>
+                                            <label class="custom-switch">
+                                                <input type="checkbox" checked>
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-600">Speeding Alerts</span>
+                                            <label class="custom-switch">
+                                                <input type="checkbox">
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-600">Hazardous Area Entry Alerts</span>
+                                            <label class="custom-switch">
+                                                <input type="checkbox" checked>
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Set Frequency -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Set Frequency</h4>
+                                    <select class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option>Instant</option>
+                                        <option>Daily Summary</option>
+                                        <option>Weekly Digest</option>
+                                    </select>
+                                </div>
+                                <!-- Select Notification Channels -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Select Notification Channels</h4>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" checked class="mr-2">
+                                            <span class="text-sm text-gray-600">Email</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="mr-2">
+                                            <span class="text-sm text-gray-600">SMS</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" checked class="mr-2">
+                                            <span class="text-sm text-gray-600">App</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Safety Settings -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>Safety Settings</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Drowsiness Sensitivity Level -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Drowsiness Sensitivity Level</h4>
+                                    <select class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option>Low</option>
+                                        <option>Medium</option>
+                                        <option>High</option>
+                                    </select>
+                                </div>
+                                <!-- Alert Sound Settings -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Alert Sound Settings</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Volume</label>
+                                            <input type="range" min="0" max="100" value="50" class="w-full mt-1">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Sound Type</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>Beep</option>
+                                                <option>Chime</option>
+                                                <option>Siren</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Auto-Call Emergency Contacts -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Auto-Call Emergency Contacts</h4>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-gray-600 mr-4">Enable on Critical Event</span>
+                                        <label class="custom-switch">
+                                            <input type="checkbox">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+                                    <input type="text" placeholder="Enter Emergency Contact Number" class="w-full mt-2 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                </div>
+                                <!-- Safe Driving Guidelines -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Safe Driving Guidelines</h4>
+                                    <textarea class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" rows="4" placeholder="Enter internal policy guidelines..."></textarea>
+                                    <button class="mt-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Save Guidelines</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Report Settings -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>Report Settings</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Report Frequency -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Report Frequency</h4>
+                                    <select class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option>Daily</option>
+                                        <option>Weekly</option>
+                                        <option>Monthly</option>
+                                    </select>
+                                </div>
+                                <!-- Auto-generate and Send to Email -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Auto-generate and Send to Email</h4>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-gray-600 mr-4">Enable Auto-send</span>
+                                        <label class="custom-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+                                    <input type="email" placeholder="Enter recipient email" class="w-full mt-2 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                </div>
+                                <!-- Select Metrics to Include -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Select Metrics to Include</h4>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" checked class="mr-2">
+                                            <span class="text-sm text-gray-600">Vehicle Status</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" checked class="mr-2">
+                                            <span class="text-sm text-gray-600">Driver Alerts</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="mr-2">
+                                            <span class="text-sm text-gray-600">Maintenance Records</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Set Report Recipients -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Set Report Recipients</h4>
+                                    <input type="text" placeholder="Enter email addresses (comma-separated)" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <button class="mt-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Add Recipients</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Settings -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>System Settings</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Language Preferences -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Language Preferences</h4>
+                                    <select class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option>English</option>
+                                        <option>Spanish</option>
+                                        <option>Hindi</option>
+                                    </select>
+                                </div>
+                                <!-- Timezone Settings -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Timezone Settings</h4>
+                                    <select class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option>UTC</option>
+                                        <option>IST (UTC+5:30)</option>
+                                        <option>PST (UTC-8:00)</option>
+                                    </select>
+                                </div>
+                                <!-- Data Refresh Rate -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Data Refresh Rate</h4>
+                                    <select class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option>30 seconds</option>
+                                        <option>1 minute</option>
+                                        <option>5 minutes</option>
+                                    </select>
+                                </div>
+                                <!-- API Access Tokens -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">API Access Tokens</h4>
+                                    <div class="flex items-center space-x-4">
+                                        <input type="text" placeholder="Generate new token" class="flex-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" readonly>
+                                        <button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Generate Token</button>
+                                    </div>
+                                </div>
+                                <!-- Data Export/Import Options -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Data Export / Import Options</h4>
+                                    <div class="flex items-center space-x-4">
+                                        <button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Export Data</button>
+                                        <input type="file" class="px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin & Team Management -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>Admin & Team Management</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Add/Remove Admins -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Add / Remove Admins</h4>
+                                    <div class="flex items-center space-x-4">
+                                        <input type="email" placeholder="Enter Admin Email" class="flex-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Add Admin</button>
+                                        <button class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 focus:outline-none">Remove</button>
+                                    </div>
+                                </div>
+                                <!-- Set Role-Based Access Control -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Set Role-Based Access Control (RBAC)</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Select User</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>James Wilson</option>
+                                                <option>John Doe</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Role</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>View Only</option>
+                                                <option>Manager</option>
+                                                <option>Admin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Assign Role</button>
+                                </div>
+                                <!-- Activity Logs -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Activity Logs</h4>
+                                    <div class="p-4 bg-gray-50 rounded-lg">
+                                        <p class="text-sm text-gray-600">View recent admin actions (e.g., user added, settings changed).</p>
+                                        <button class="mt-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">View Logs</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Integrations -->
+                    <div class="settings-section mb-4">
+                        <button class="w-full flex items-center justify-between py-3 text-lg font-semibold text-gray-800 focus:outline-none" onclick="toggleSection(this)">
+                            <span>Integrations</span>
+                            <i class="ri-arrow-down-s-line text-gray-500"></i>
+                        </button>
+                        <div class="settings-section-content">
+                            <div class="p-4 space-y-6">
+                                <!-- Connect External Services -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Connect External Services</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Google Maps API Key</label>
+                                            <input type="text" placeholder="Enter API Key" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">Fleet Management System</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>Samsara</option>
+                                                <option>Geotab</option>
+                                                <option>Custom</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Connect Service</button>
+                                </div>
+                                <!-- Integration with HR/Payroll -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Integration with HR or Payroll System</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm text-gray-600">System</label>
+                                            <select class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                                <option>BambooHR</option>
+                                                <option>Workday</option>
+                                                <option>Custom</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm text-gray-600">API Key</label>
+                                            <input type="text" placeholder="Enter API Key" class="w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                        </div>
+                                    </div>
+                                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark focus:outline-none">Connect System</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Sidebar Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+            const sidebar = document.querySelector('aside');
+            
+            if (mobileSidebarToggle) {
+                mobileSidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('hidden');
+                });
+            }
+        });
+
+        // Toggle Settings Sections
+        function toggleSection(button) {
+            const section = button.parentElement;
+            const content = section.querySelector('.settings-section-content');
+            const icon = button.querySelector('i');
+            
+            section.classList.toggle('active');
+            icon.classList.toggle('ri-arrow-down-s-line');
+            icon.classList.toggle('ri-arrow-up-s-line');
+        }
+    </script>
+</body>
+</html>

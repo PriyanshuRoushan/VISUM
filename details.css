@@ -1,0 +1,83 @@
+/* Ensure map container has proper dimensions */
+#map {
+    height: 100%;
+    width: 100%;
+    min-height: 384px; /* 24rem equivalent */
+    z-index: 10;
+}
+
+/* Fallback styles when map fails to load */
+#map-fallback {
+    background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Status badges */
+.status-hazard {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.status-caution {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.status-safe {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+/* Custom switch styles */
+.custom-switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+.custom-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .switch-slider {
+    background-color: #3b82f6;
+}
+
+input:checked + .switch-slider:before {
+    transform: translateX(16px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #map {
+        min-height: 250px;
+    }
+}
