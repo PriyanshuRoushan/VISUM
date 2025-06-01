@@ -4,10 +4,11 @@
 <br>
 <h2>🔍 Features</h2>
 <br>
+
 Real-time detection of drowsiness using webcam
-
+<br>
 Eye and head movement tracking
-
+<br>
 Automatic alert system to wake the driver (e.g., sound alert)
-
+<br>
 Lightweight and easy to deploy on laptops or embedded devices
