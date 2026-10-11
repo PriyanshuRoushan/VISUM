@@ -1,14 +1,21 @@
-
-<h1>Visum 😴🚗</h1>
-<h1>Visum is a real-time Driver Drowsiness Detection System designed to help prevent road accidents by monitoring the driver’s eye and facial behavior using computer vision.</h1>
-<br>
-<h2>🔍 Features</h2>
+# Project Visum
+> Accident Prevention System caused By Drowsiness Driving  
 <br>
 
-Real-time detection of drowsiness using webcam
-<br>
-Eye and head movement tracking
-<br>
-Automatic alert system to wake the driver (e.g., sound alert)
-<br>
-Lightweight and easy to deploy on laptops or embedded devices
+### Project Brief
+- **Utilise Sensors and AI Algorithms**: The system employs sensors and algorithms to analyse parameters like eye movement and facial expressions.
+
+- **Real-Time Assessment**: By constantly assessing these factors like EAR & Facial Expression the system can accurately determine a driver's alertness level.
+- **Warning and Intervention**: When fatigue signs are detected and crosses certain limits, the system issues warnings or takes intervention measures.
+- **Microcontroller and OpenCV**: A microcontroller based independent unit processes the data, and Singles , a library for real-time computer vision & ML Model is used.
+
+- **MediaPipe for Facial Landmark Detection**: MediaPipe, an open-source library by Google, is utilised for facial landmark detection to Calculate Eye Aspect Ratio.
+
+- **Eye Aspect Ratio Calculation**: MediaPipe allows for the calculation of the eye aspect ratio, a critical factor in assessing fatigue.
+
+
+# <a href="https://youtu.be/LiVuiS0SveM" target="_blank">Demo Video </a> 
+
+## Project Screenshots
+
+![alt text](<Screenshots/Screenshot (323).png>) ![alt text](<Screenshots/Screenshot (324).png>) ![alt text](<Screenshots/Screenshot (329).png>) ![alt text](<Screenshots/Screenshot (330).png>) 
